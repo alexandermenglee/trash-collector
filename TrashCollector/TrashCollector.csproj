@@ -187,6 +187,10 @@
     <Compile Include="Migrations\201908011449433_ThirdMigration.Designer.cs">
       <DependentUpon>201908011449433_ThirdMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908011915021_DateTimePropertyMigration.cs" />
+    <Compile Include="Migrations\201908011915021_DateTimePropertyMigration.Designer.cs">
+      <DependentUpon>201908011915021_DateTimePropertyMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -259,6 +263,8 @@
     <Content Include="Views\Customer\Details.cshtml" />
     <Content Include="Views\Customer\Edit.cshtml" />
     <Content Include="Views\Customer\EditPickUpDay.cshtml" />
+    <Content Include="Views\Customer\ShowBill.cshtml" />
+    <Content Include="Views\Customer\CreateSpecialPickupDate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -285,6 +291,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908011449433_ThirdMigration.resx">
       <DependentUpon>201908011449433_ThirdMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908011915021_DateTimePropertyMigration.resx">
+      <DependentUpon>201908011915021_DateTimePropertyMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -12,10 +12,13 @@ namespace TrashCollector.Controllers
     public class CustomerController : Controller
     {
         ApplicationDbContext _context;
+        List<string> days; 
 
         public CustomerController()
         {
             _context = new ApplicationDbContext();
+            days = new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+
         }
         // GET: Customer
         public ActionResult Index()
@@ -38,6 +41,8 @@ namespace TrashCollector.Controllers
         // GET: Customer/Create
         public ActionResult Create()
         {
+            ViewBag.days = days;
+
             return View();
         }
 
@@ -84,15 +89,15 @@ namespace TrashCollector.Controllers
 
                 foundCustomer.FirstName = customer.FirstName;
                 foundCustomer.LastName = customer.LastName;
-                // street city state zip
                 foundCustomer.Street = customer.Street;
                 foundCustomer.City = customer.City;
                 foundCustomer.State = customer.State;
                 foundCustomer.Zip = customer.Zip;
+                foundCustomer.PickUpDay = customer.PickUpDay;
 
                 _context.SaveChanges();
 
-                return RedirectToAction("Index");
+                return View();
             }
             catch
             {
@@ -105,7 +110,6 @@ namespace TrashCollector.Controllers
             if(id != null)
             {
                 Customer customer = _context.Customers.Find(id);
-                List<string> days = new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
                 ViewBag.days = days;
 
                 return View(customer);
@@ -124,6 +128,56 @@ namespace TrashCollector.Controllers
                 Customer foundCustomer = _context.Customers.Find(customer.CustomerId);
 
                 foundCustomer.PickUpDay = customer.PickUpDay;
+
+                _context.SaveChanges();
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET
+        public ActionResult Showbill(int? id)
+        {
+            DateTime currentDate = DateTime.Now;
+
+            ViewBag.currentMonth = currentDate.ToString("MMMM"); ;
+
+            if (id != null)
+            {
+                Customer customer = _context.Customers.Find(id);
+
+                return View(customer);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        // GET: Customer/CreateSpecialPickupDate
+        public ActionResult CreateSpecialPickupDate(int? id)
+        {
+            if(id != null)
+            {
+                Customer customer = _context.Customers.Find(id);
+                return View(customer);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        // POST: Customer/CreateSpecialPickupDate
+        [HttpPost]
+        public ActionResult CreateSpecialPickupDate(Customer customer)
+        {
+            try
+            {
+                // TODO: Add update logic here
+                Customer foundCustomer = _context.Customers.Find(customer.CustomerId);
+
+                foundCustomer.SpecialPickupDate = customer.SpecialPickupDate;
 
                 _context.SaveChanges();
 
