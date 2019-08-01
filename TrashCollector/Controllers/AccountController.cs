@@ -151,28 +151,23 @@ namespace TrashCollector.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Role = model.Role };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    await this.UserManager.AddToRoleAsync(user.Id, model.Role);
+                    var roleResult = await UserManager.AddToRoleAsync(user.Id, model.Role);
 
-                    if (model.Role.Equals("Employee"))
+                    if (roleResult.Succeeded)
                     {
-                        return RedirectToAction("Create", "Employee");
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                        return RedirectToAction("Created", "Home");
                     }
-                    else if (model.Role.Equals("Customer"))
-                    {
-                        return RedirectToAction("Create", "Customer");
-                    }
-                    /*return RedirectToAction("Index", "Home");*/
                 }
 
                 AddErrors(result);

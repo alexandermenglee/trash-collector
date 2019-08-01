@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 
 namespace TrashCollector.Controllers
 {
+    [Authorize(Roles = "Customer")]
     public class CustomerController : Controller
     {
         ApplicationDbContext _context;
@@ -28,7 +29,7 @@ namespace TrashCollector.Controllers
             if(id != null)
             {
                 Customer customer = _context.Customers.Find(id);
-                return View();
+                return View(customer);
             }
 
             return RedirectToAction("Index", "Home");
@@ -92,6 +93,41 @@ namespace TrashCollector.Controllers
                 _context.SaveChanges();
 
                 return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        // GET
+        public ActionResult EditPickUpDay(int? id)
+        {
+            if(id != null)
+            {
+                Customer customer = _context.Customers.Find(id);
+                List<string> days = new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+                ViewBag.days = days;
+
+                return View(customer);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        // POST
+        [HttpPost]
+        public ActionResult EditPickUpDay(Customer customer)
+        {
+            try
+            {
+                // TODO: Add update logic here
+                Customer foundCustomer = _context.Customers.Find(customer.CustomerId);
+
+                foundCustomer.PickUpDay = customer.PickUpDay;
+
+                _context.SaveChanges();
+
+                return RedirectToAction("Index", "Home");
             }
             catch
             {

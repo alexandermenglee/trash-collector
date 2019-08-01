@@ -23,12 +23,16 @@ namespace TrashCollector.Controllers
         }
 
         // GET: Employee/Details/5
-        public ActionResult Details()
+        public ActionResult Details(int? id)
         {
-            string currentUserApplicationId = User.Identity.GetUserId();
-            Employee employee = _context.Employees.Where(e => e.ApplicationUserId == currentUserApplicationId).Single();
+            if(id != null)
+            {
+                Employee employee = _context.Employees.Find(id);
 
-            return View(employee);
+                return View(employee);
+            }
+                       
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Employee/Create
