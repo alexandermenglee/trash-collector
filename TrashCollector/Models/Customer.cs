@@ -17,6 +17,7 @@ namespace TrashCollector.Models
         public string City { get; set; }
         public string State { get; set; }
         public int Zip { get; set; }
+        public string PickUpDay { get; set; }
         public double BillAmount { get; set; }
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
