@@ -26,7 +26,7 @@ namespace TrashCollector.Controllers
         public ActionResult Details()
         {
             string currentUserApplicationId = User.Identity.GetUserId();
-            Employee employee = _context.Employees.Where(e => e.ApplicationUserId == currentUserApplicationId).Single(); ;
+            Employee employee = _context.Employees.Where(e => e.ApplicationUserId == currentUserApplicationId).Single();
 
             return View(employee);
         }

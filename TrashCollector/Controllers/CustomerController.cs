@@ -23,9 +23,15 @@ namespace TrashCollector.Controllers
         }
 
         // GET: Customer/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            return View();
+            if(id != null)
+            {
+                Customer customer = _context.Customers.Find(id);
+                return View();
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Customer/Create
@@ -54,40 +60,36 @@ namespace TrashCollector.Controllers
         }
 
         // GET: Customer/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            return View();
+            if(id != null)
+            {
+                Customer customer = _context.Customers.Find(id);
+
+                return View(customer);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Customer/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Customer customer)
         {
             try
             {
                 // TODO: Add update logic here
+                Customer foundCustomer = _context.Customers.Find(customer.CustomerId);
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                foundCustomer.FirstName = customer.FirstName;
+                foundCustomer.LastName = customer.LastName;
+                // street city state zip
+                foundCustomer.Street = customer.Street;
+                foundCustomer.City = customer.City;
+                foundCustomer.State = customer.State;
+                foundCustomer.Zip = customer.Zip;
 
-        // GET: Customer/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Customer/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
+                _context.SaveChanges();
 
                 return RedirectToAction("Index");
             }
