@@ -19,7 +19,10 @@ namespace TrashCollector.Models
         public int Zip { get; set; }
         public string PickUpDay { get; set; }
         public double BillAmount { get; set; }
-        public DateTime SpecialPickupDate { get; set; }
+        public DateTime? SpecialPickupDate { get; set; } = null;
+        public DateTime? StartSuspension { get; set; } = null;
+        public DateTime? EndSuspendsion { get; set; } = null;
+        public bool AccountSuspended { get; set; } = false;
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
