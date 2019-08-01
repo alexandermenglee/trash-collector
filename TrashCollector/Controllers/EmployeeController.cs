@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 
 namespace TrashCollector.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class EmployeeController : Controller
     {
         ApplicationDbContext _context;
@@ -18,13 +19,16 @@ namespace TrashCollector.Controllers
         // GET: Employee
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Employee/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details()
         {
-            return View();
+            string currentUserApplicationId = User.Identity.GetUserId();
+            Employee employee = _context.Employees.Where(e => e.ApplicationUserId == currentUserApplicationId).Single(); ;
+
+            return View(employee);
         }
 
         // GET: Employee/Create
@@ -53,40 +57,31 @@ namespace TrashCollector.Controllers
         }
 
         // GET: Employee/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            return View();
+            if (id != null)
+            {
+                Employee employee = _context.Employees.Where(e => e.EmployeeId == id).Single();
+
+                return View(employee);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Employee/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Employee employee)
         {
             try
             {
                 // TODO: Add update logic here
+                Employee foundEmployee = _context.Employees.Find(employee.EmployeeId);
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                foundEmployee.FirstName = employee.FirstName;
+                foundEmployee.LastName = employee.LastName;
 
-        // GET: Employee/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Employee/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
+                _context.SaveChanges();
 
                 return RedirectToAction("Index");
             }
