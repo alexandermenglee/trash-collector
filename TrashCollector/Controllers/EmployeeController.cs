@@ -19,7 +19,11 @@ namespace TrashCollector.Controllers
         // GET: Employee
         public ActionResult Index()
         {
-            return RedirectToAction("Index", "Home");
+            string signedInEmployeeApplicationId = User.Identity.GetUserId();
+            Employee signedInEmployee = _context.Employees.Find(signedInEmployeeApplicationId);
+
+            /*IQueryable<Customer> customers = _context.Where(c => c.sig );*/
+            return View();
         }
 
         // GET: Employee/Details/5
