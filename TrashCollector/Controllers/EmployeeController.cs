@@ -19,12 +19,16 @@ namespace TrashCollector.Controllers
         // GET: Employee
         public ActionResult Index()
         {
-            string signedInEmployeeApplicationId = User.Identity.GetUserId();
-            Employee signedInEmployee = _context.Employees.Where(e => e.ApplicationUserId.Equals(signedInEmployeeApplicationId)).Single();
-            DateTime dateTimeObject = new DateTime();
-            string today = dateTimeObject.DayOfWeek.ToString();
+            string signedInEmployeeApplicationId;
+            Employee signedInEmployee;
+            string today;
+            IQueryable<Customer> customers
 
-            IQueryable<Customer> customers = _context.Customers.Where(c => c.Zip == signedInEmployee.Zip && c.PickUpDay.Equals(today));
+
+            signedInEmployeeApplicationId = User.Identity.GetUserId();
+            signedInEmployee = _context.Employees.Where(e => e.ApplicationUserId.Equals(signedInEmployeeApplicationId)).Single();
+            today = DateTime.Today.DayOfWeek.ToString();
+            customers = _context.Customers.Where(c => c.Zip == signedInEmployee.Zip && c.PickUpDay.Equals(today));
 
             return View(customers);
         }
