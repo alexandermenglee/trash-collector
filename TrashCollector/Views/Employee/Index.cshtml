@@ -1,14 +1,12 @@
-﻿    @model IEnumerable<TrashCollector.Models.Customer>
+﻿@model IEnumerable<TrashCollector.Models.Customer>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Pickups Today</h2>
+<h4><i>Date</i></h4>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -31,24 +29,6 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.PickUpDay)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BillAmount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SpecialPickupDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StartSuspension)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndSuspendsion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AccountSuspended)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ApplicationUserId)
         </th>
         <th></th>
     </tr>
@@ -77,27 +57,7 @@
             @Html.DisplayFor(modelItem => item.PickUpDay)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.BillAmount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SpecialPickupDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartSuspension)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndSuspendsion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AccountSuspended)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationUserId)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CustomerId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CustomerId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CustomerId })
+            @Html.ActionLink("Show On Map", "ShowCustomerOnMap", new { id=item.CustomerId })
         </td>
     </tr>
 }

@@ -270,16 +270,16 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Customer\Create.cshtml" />
     <Content Include="Views\Employee\Details.cshtml" />
-    <Content Include="Views\Employee\Edit2.cshtml" />
     <Content Include="Views\Customer\Details.cshtml" />
     <Content Include="Views\Customer\Edit.cshtml" />
     <Content Include="Views\Customer\EditPickUpDay.cshtml" />
     <Content Include="Views\Customer\ShowBill.cshtml" />
     <Content Include="Views\Customer\CreateSpecialPickupDate.cshtml" />
     <Content Include="Views\Customer\SuspendPickup.cshtml" />
-    <Content Include="Views\Employee\Index.cshtml" />
-    <Content Include="Views\Employee\Create2.cshtml" />
+    <Content Include="Views\Employee\Create.cshtml" />
     <Content Include="Views\Employee\Edit.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
+    <Content Include="Views\Employee\ShowCustomerOnMap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

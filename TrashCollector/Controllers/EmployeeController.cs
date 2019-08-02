@@ -20,10 +20,13 @@ namespace TrashCollector.Controllers
         public ActionResult Index()
         {
             string signedInEmployeeApplicationId = User.Identity.GetUserId();
-            Employee signedInEmployee = _context.Employees.Find(signedInEmployeeApplicationId);
+            Employee signedInEmployee = _context.Employees.Where(e => e.ApplicationUserId.Equals(signedInEmployeeApplicationId)).Single();
+            DateTime dateTimeObject = new DateTime();
+            string today = dateTimeObject.DayOfWeek.ToString();
 
-            /*IQueryable<Customer> customers = _context.Where(c => c.sig );*/
-            return View();
+            IQueryable<Customer> customers = _context.Customers.Where(c => c.Zip == signedInEmployee.Zip && c.PickUpDay.Equals(today));
+
+            return View(customers);
         }
 
         // GET: Employee/Details/5
@@ -88,6 +91,9 @@ namespace TrashCollector.Controllers
 
                 foundEmployee.FirstName = employee.FirstName;
                 foundEmployee.LastName = employee.LastName;
+                foundEmployee.Zip = employee.Zip;
+                foundEmployee.State = employee.State;
+                foundEmployee.City = employee.City;
 
                 _context.SaveChanges();
 
