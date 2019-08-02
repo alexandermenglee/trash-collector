@@ -12,9 +12,11 @@ namespace TrashCollector.Controllers
     public class EmployeeController : Controller
     {
         ApplicationDbContext _context;
+        List<string> days;
         public EmployeeController()
         {
             _context = new ApplicationDbContext();
+            days = new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
         }
         // GET: Employee
         public ActionResult Index()
@@ -22,7 +24,8 @@ namespace TrashCollector.Controllers
             string signedInEmployeeApplicationId;
             Employee signedInEmployee;
             string today;
-            IQueryable<Customer> customers
+            IQueryable<Customer> customers;
+            ViewBag.days = days;
 
 
             signedInEmployeeApplicationId = User.Identity.GetUserId();
@@ -107,6 +110,20 @@ namespace TrashCollector.Controllers
             {
                 return View();
             }
+        }
+
+        // GET: Employee/ShowCustomersByDay
+        public ActionResult ShowCustomersByDay(string day)
+        {
+            Employee employee;
+            string signedInEmployeeApplicationId;
+            IQueryable<Customer> customers;
+
+            signedInEmployeeApplicationId = User.Identity.GetUserId();
+            employee = _context.Employees.Where(e => e.ApplicationUserId.Equals(signedInEmployeeApplicationId)).Single();
+            customers = _context.Customers.Where(c => c.Zip == employee.Zip && c.PickUpDay.Equals(day));
+
+            return View(customers);
         }
     }
 }
