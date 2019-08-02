@@ -188,5 +188,51 @@ namespace TrashCollector.Controllers
                 return View();
             }
         }
+
+        // GET: Customer/SuspendPickup
+        public ActionResult SuspendPickup(int? id)
+        {
+            if (id != null)
+            {
+                Customer customer = _context.Customers.Find(id);
+                return View(customer);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        // POST Customer/SuspendPickup
+        [HttpPost]
+        public ActionResult SuspendPickup(Customer customer)
+        {
+            Customer foundCustomer;
+
+            foundCustomer = _context.Customers.Find(customer.CustomerId);
+
+            foundCustomer.StartSuspension = customer.StartSuspension;
+            foundCustomer.EndSuspendsion = customer.EndSuspendsion;
+
+            // Suspension: True
+                // Now > StartSuspension and Now < EndSuspension
+                // startOfSuspension > 0 && endOfSuspension < 0
+            // Suspension: False
+                // startOfSuspension < 0 || endOfSuspension > 0
+
+            int startOfSuspension = DateTime.Compare(DateTime.Now, foundCustomer.StartSuspension.Value);
+            int endOfSuspension = DateTime.Compare(DateTime.Now, foundCustomer.EndSuspendsion.Value);
+
+            if(startOfSuspension > 0 && endOfSuspension < 0)
+            {
+                foundCustomer.AccountSuspended = true;
+            }
+            else if(startOfSuspension < 0 || endOfSuspension > 0)
+            {
+                foundCustomer.AccountSuspended = false;
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

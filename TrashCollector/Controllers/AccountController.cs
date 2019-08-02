@@ -79,6 +79,7 @@ namespace TrashCollector.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    // redirect user to HomeController Index Action
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
