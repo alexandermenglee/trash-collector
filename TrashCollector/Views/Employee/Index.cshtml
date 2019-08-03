@@ -63,15 +63,21 @@
         </tr>
     }
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("ShowCustomersByDay", "Employee"))
     {
+        @Html.AntiForgeryToken()
+
         <div class="form-group">
+
             @Html.Label("Filter By Day", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("Day", new SelectList(ViewBag.days), "Select Day", new { @class = "btn btn-primary dropdown-toggle", @id = "Day" })
             </div>
-            <div>
-                @Html.ActionLink("Submit", "ShowCustomersByDay", null, new { @id = "Day" })
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
             </div>
         </div>
     }

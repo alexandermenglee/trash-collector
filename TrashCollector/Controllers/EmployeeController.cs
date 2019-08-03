@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using TrashCollector.Models;
 using Microsoft.AspNet.Identity;
@@ -36,6 +35,22 @@ namespace TrashCollector.Controllers
             return View(customers);
         }
 
+        // GET: Employee/ShowCustomersByDay
+        [ActionName("IndexByDay")]
+        public ActionResult Index(string day)
+        {
+            Employee employee;
+            string signedInEmployeeApplicationId;
+            IQueryable<Customer> customers;
+            ViewBag.days = days;
+
+            signedInEmployeeApplicationId = User.Identity.GetUserId();
+            employee = _context.Employees.Where(e => e.ApplicationUserId.Equals(signedInEmployeeApplicationId)).Single();
+            customers = _context.Customers.Where(c => c.Zip == employee.Zip && c.PickUpDay.Equals(day));
+
+            return View(customers);
+        }
+
         // GET: Employee/Details/5
         public ActionResult Details(int? id)
         {
@@ -48,6 +63,8 @@ namespace TrashCollector.Controllers
                        
             return RedirectToAction("Index", "Home");
         }
+
+
 
         // GET: Employee/Create
         public ActionResult Create()
@@ -118,10 +135,16 @@ namespace TrashCollector.Controllers
             Employee employee;
             string signedInEmployeeApplicationId;
             IQueryable<Customer> customers;
+            ViewBag.days = days;
 
             signedInEmployeeApplicationId = User.Identity.GetUserId();
             employee = _context.Employees.Where(e => e.ApplicationUserId.Equals(signedInEmployeeApplicationId)).Single();
             customers = _context.Customers.Where(c => c.Zip == employee.Zip && c.PickUpDay.Equals(day));
+
+            if(!customers.Any())
+            {
+                return RedirectToAction("Index", "Employee");
+            }
 
             return View(customers);
         }
