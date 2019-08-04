@@ -22,6 +22,7 @@ namespace TrashCollector.Models
         public DateTime? SpecialPickupDate { get; set; } = null;
         public DateTime? StartSuspension { get; set; } = null;
         public DateTime? EndSuspendsion { get; set; } = null;
+        public bool PickedUp { get; set; }
         public bool AccountSuspended { get; set; } = false;
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }

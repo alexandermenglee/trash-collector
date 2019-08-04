@@ -203,6 +203,10 @@
     <Compile Include="Migrations\201908021616078_RemovedEmployeeStreetFieldProperty.Designer.cs">
       <DependentUpon>201908021616078_RemovedEmployeeStreetFieldProperty.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908041710514_Added PickedUp property to Customer model.cs" />
+    <Compile Include="Migrations\201908041710514_Added PickedUp property to Customer model.Designer.cs">
+      <DependentUpon>201908041710514_Added PickedUp property to Customer model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -319,6 +323,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908021616078_RemovedEmployeeStreetFieldProperty.resx">
       <DependentUpon>201908021616078_RemovedEmployeeStreetFieldProperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908041710514_Added PickedUp property to Customer model.resx">
+      <DependentUpon>201908041710514_Added PickedUp property to Customer model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
