@@ -12,7 +12,6 @@ namespace TrashCollector.Controllers
     {
         ApplicationDbContext _context;
         List<string> days;
-        string currentDay;
         public EmployeeController()
         {
             _context = new ApplicationDbContext();
@@ -119,27 +118,6 @@ namespace TrashCollector.Controllers
             }
         }
 
-        // GET: Employee/ShowCustomersByDay
-        public ActionResult ShowCustomersByDay(string day)
-        {
-            Employee employee;
-            string signedInEmployeeApplicationId;
-            IQueryable<Customer> customers;
-            ViewBag.days = days;
-
-            signedInEmployeeApplicationId = User.Identity.GetUserId();
-            employee = _context.Employees.Where(e => e.ApplicationUserId.Equals(signedInEmployeeApplicationId)).Single();
-            customers = _context.Customers.Where(c => c.Zip == employee.Zip && c.PickUpDay.Equals(day));
-
-            if(!customers.Any())
-            {
-                return RedirectToAction("Index", "Employee");
-            }
-
-            return View(customers);
-        }
-
-        // POST: Employee/ConfirmPickUps
         public ActionResult ConfirmPickup(Customer customer)
         {
             Customer foundCustomer;
@@ -151,6 +129,13 @@ namespace TrashCollector.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("IndexByDay", "Employee" , new { day = customer.PickUpDay });
+        }
+
+        [HttpGet]
+        public ActionResult ShowCustomerOnMap()
+        {
+            
+            return View();
         }
     }
 }
