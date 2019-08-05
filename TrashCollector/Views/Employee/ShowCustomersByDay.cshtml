@@ -29,10 +29,14 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.PickUpDay)
-        </th> 
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PickedUp)
+        </th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
 <tr>
     <td>
         @Html.DisplayFor(modelItem => item.FirstName)
@@ -55,12 +59,18 @@
     <td>
         @Html.DisplayFor(modelItem => item.PickUpDay)
     </td>
-
-    @*<td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CustomerId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CustomerId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CustomerId })
-        </td>*@
+    <td>
+        @{
+            if (item.PickedUp)
+            {
+                @Html.DisplayTextFor(modelItem => item.PickedUp);
+            }
+            else
+            {
+                @Html.ActionLink("Confirm Pickup", "ConfirmPickup", new { id = item.CustomerId });
+            }
+        }
+    </td>
 
     @using (Html.BeginForm("ShowCustomersByDay", "Employee"))
     {

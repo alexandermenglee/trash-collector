@@ -12,6 +12,7 @@ namespace TrashCollector.Controllers
     {
         ApplicationDbContext _context;
         List<string> days;
+        string currentDay;
         public EmployeeController()
         {
             _context = new ApplicationDbContext();
@@ -20,24 +21,13 @@ namespace TrashCollector.Controllers
         // GET: Employee
         public ActionResult Index()
         {
-            string signedInEmployeeApplicationId;
-            Employee signedInEmployee;
-            string today;
-            IQueryable<Customer> customers;
-            ViewBag.days = days;
+            DayOfWeek today = DateTime.Today.DayOfWeek;
 
-
-            signedInEmployeeApplicationId = User.Identity.GetUserId();
-            signedInEmployee = _context.Employees.Where(e => e.ApplicationUserId.Equals(signedInEmployeeApplicationId)).Single();
-            today = DateTime.Today.DayOfWeek.ToString();
-            customers = _context.Customers.Where(c => c.Zip == signedInEmployee.Zip && c.PickUpDay.Equals(today));
-
-            return View(customers);
+            return RedirectToAction("IndexByDay", "Employee", new { day = today });
         }
 
-        // GET: Employee/ShowCustomersByDay
-        [ActionName("IndexByDay")]
-        public ActionResult Index(string day)
+        // Employee/Index/{day}
+        public ActionResult IndexByDay(string day)
         {
             Employee employee;
             string signedInEmployeeApplicationId;
@@ -139,7 +129,7 @@ namespace TrashCollector.Controllers
 
             signedInEmployeeApplicationId = User.Identity.GetUserId();
             employee = _context.Employees.Where(e => e.ApplicationUserId.Equals(signedInEmployeeApplicationId)).Single();
-            customers = _context.Customers.Where(c => c.Zip == employee.Zip && c.PickUpDay.Equals(day) && c.PickedUp == false);
+            customers = _context.Customers.Where(c => c.Zip == employee.Zip && c.PickUpDay.Equals(day));
 
             if(!customers.Any())
             {
@@ -147,6 +137,20 @@ namespace TrashCollector.Controllers
             }
 
             return View(customers);
+        }
+
+        // POST: Employee/ConfirmPickUps
+        public ActionResult ConfirmPickup(Customer customer)
+        {
+            Customer foundCustomer;
+            
+            foundCustomer = _context.Customers.Find(customer.CustomerId);
+            foundCustomer.PickedUp = true;
+            foundCustomer.BillAmount += 2.75;
+
+            _context.SaveChanges();
+
+            return RedirectToAction("IndexByDay", "Employee" , new { day = customer.PickUpDay });
         }
     }
 }
