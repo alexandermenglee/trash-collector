@@ -132,10 +132,11 @@ namespace TrashCollector.Controllers
         }
 
         [HttpGet]
-        public ActionResult ShowCustomerOnMap()
+        public ActionResult ShowCustomerOnMap(int? id)
         {
-            
-            return View();
+            Customer customer = _context.Customers.Find(id);
+
+            return View(customer);
         }
     }
 }
