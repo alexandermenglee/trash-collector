@@ -11,11 +11,14 @@
     }
 </style>
 
-<h2>Customer Location</h2>
+<h2>@ViewBag.address</h2>
 
+@*<body onload="initialize">
+    <div id="map"></div>
+</body>*@
 <div id="map"></div>
 
-@section Scripts{
+
     <script>
         var geocoder;
         var map;
@@ -33,26 +36,27 @@
             codeAddress();
 
             function codeAddress() {
-                var address = customer.Street;
-                console.log(address);
-                var marker;
+            var address = customer.Street;
+            console.log(address);
+            var marker;
 
-                geocoder.geocode( { 'address': address}, function(results, status) {
+            geocoder.geocode( { 'address': address}, function(results, status) {
 
-                if (status == 'OK') {
-                    map.setCenter(results[0].geometry.location);    
-                    marker = new google.maps.Marker({
-                    map: map,
-                    position: results[0].geometry.location
-                });
-                } else {
-                    alert('Geocode was not successful: ' + status);
-                }
+            if (status == 'OK') {
+                map.setCenter(results[0].geometry.location);    
+                marker = new google.maps.Marker({
+                map: map,
+                position: results[0].geometry.location
             });
+            } else {
+                alert('Geocode was not successful: ' + status);
+             }
+        });
             }
-        }
+            }
+
+        
     </script>
-}
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZCClfQnXjObSwJtdpPVx2fl75m1xmU_s&callback=initialize"async defer></script>
 
