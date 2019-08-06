@@ -95,5 +95,7 @@
 </div>
 <p>
     @Html.ActionLink("See Bill Amount", "ShowBill", "Customer", new { id = Model.CustomerId }, null) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Set One Time Pickup Date", "CreateSpecialPickupDate", "Customer", new { id = Model.CustomerId}, null) |
+    @Html.ActionLink("Suspend Pickup", "SuspendPickup", "Customer", new { id = Model.CustomerId }, null)
+
 </p>

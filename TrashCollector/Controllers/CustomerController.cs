@@ -191,11 +191,11 @@ namespace TrashCollector.Controllers
 
                 _context.SaveChanges();
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", new { id = foundCustomer.CustomerId });
             }
             catch
             {
-                return View();
+                return RedirectToAction("Index", "Home"); ;
             }
         }
 
@@ -242,7 +242,7 @@ namespace TrashCollector.Controllers
 
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", new { id = foundCustomer.CustomerId });
         }
     }
 }
