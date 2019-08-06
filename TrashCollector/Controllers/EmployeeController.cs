@@ -35,7 +35,7 @@ namespace TrashCollector.Controllers
 
             signedInEmployeeApplicationId = User.Identity.GetUserId();
             employee = _context.Employees.Where(e => e.ApplicationUserId.Equals(signedInEmployeeApplicationId)).Single();
-            customers = _context.Customers.Where(c => c.Zip == employee.Zip && c.PickUpDay.Equals(day));
+            customers = _context.Customers.Where(c => c.Zip == employee.Zip && c.PickUpDay.Equals(day) && c.AccountSuspended == false);
 
             return View(customers);
         }
