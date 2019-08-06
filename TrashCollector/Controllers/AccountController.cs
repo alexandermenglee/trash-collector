@@ -80,7 +80,7 @@ namespace TrashCollector.Controllers
             {
                 case SignInStatus.Success:
                     // redirect user to HomeController Index Action
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("RedirectToIndex", "Home");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -339,7 +339,7 @@ namespace TrashCollector.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("RedirectToIndex", "Home");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

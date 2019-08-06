@@ -135,6 +135,7 @@ namespace TrashCollector.Controllers
         public ActionResult ShowCustomerOnMap(int? id)
         {
             Customer customer = _context.Customers.Find(id);
+            ViewBag.address = $"{customer.Street} {customer.City} {customer.Zip}";
 
             return View(customer);
         }

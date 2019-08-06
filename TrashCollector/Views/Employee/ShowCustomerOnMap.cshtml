@@ -13,9 +13,7 @@
 
 <h2>Customer Location</h2>
 
-<body onload="initialize()">
-    <div id="map"></div>
-</body>
+<div id="map"></div>
 
 @section Scripts{
     <script>
@@ -25,32 +23,36 @@
 
         function initialize() {
             geocoder = new google.maps.Geocoder();
-            var latlng = new google.maps.LatLng(-34.397, 150.644);  
+            var latlng = new google.maps.LatLng(-34.397, 150.644);
             var mapOptions = {
-              zoom: 8,
-              center: latlng
+                zoom: 16,
+                center: latlng
             }
             map = new google.maps.Map(document.getElementById('map'), mapOptions);
-            codeAddress();
-            }
 
-        function codeAddress() {
-            var address = customer.Street;
-            console.log(address);
-            geocoder.geocode( { 'address': address}, function(results, status) {
-            if (status == 'OK') {
-                map.setCenter(results[0].geometry.location);
-                var marker = new google.maps.Marker({
+            codeAddress();
+
+            function codeAddress() {
+                var address = customer.Street;
+                console.log(address);
+                var marker;
+
+                geocoder.geocode( { 'address': address}, function(results, status) {
+
+                if (status == 'OK') {
+                    map.setCenter(results[0].geometry.location);    
+                    marker = new google.maps.Marker({
                     map: map,
                     position: results[0].geometry.location
                 });
-            } else {
-                    alert('Geocode was not successful for the following reason: ' + status);
+                } else {
+                    alert('Geocode was not successful: ' + status);
                 }
             });
+            }
         }
     </script>
 }
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZCClfQnXjObSwJtdpPVx2fl75m1xmU_s&callback=initialize" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZCClfQnXjObSwJtdpPVx2fl75m1xmU_s&callback=initialize"async defer></script>
 

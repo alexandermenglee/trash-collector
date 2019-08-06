@@ -76,7 +76,7 @@
     </td>
 
     <td>
-        @Html.ActionLink("Show On Map", "ShowCustomerOnMap", item)
+        @Html.ActionLink("Show On Map", "ShowCustomerOnMap", new { id = item.CustomerId })
     </td>
 </tr>
     }

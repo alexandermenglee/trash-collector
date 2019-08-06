@@ -21,9 +21,18 @@ namespace TrashCollector.Controllers
 
         }
         // GET: Customer
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            return View();
+            if(id != null)
+            {
+                Customer foundCustomer;
+
+                foundCustomer = _context.Customers.Find(id);
+
+                return View(foundCustomer);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Customer/Details/5
@@ -140,7 +149,8 @@ namespace TrashCollector.Controllers
         }
 
         // GET
-        public ActionResult Showbill(int? id)
+        [HttpGet]
+        public ActionResult ShowBill(int? id)
         {
             DateTime currentDate = DateTime.Now;
 
